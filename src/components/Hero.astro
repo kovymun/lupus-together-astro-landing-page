@@ -1,18 +1,142 @@
-<section id="hero">
-  <h1>HOME</h1>
+---
+import { Image } from "astro:assets";
+import holdingHands from "../assets/holding-hands.webp";
+---
+
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <h1>Your Story. Your Strength. A Community That Understands</h1>
+    <p>
+      Join a safe space where people with Lupus connect, share stories, and
+      thrive together.
+    </p>
+    <div>
+      <a href="#join" class="site-btn"> Join Our Community! </a>
+    </div>
+  </div>
+
+  <div class="hero-image">
+    <Image
+      src={holdingHands}
+      alt="People holding hands, symbolizing community and empathy for people with Lupus"
+      loading="lazy"
+      format="avif"
+    />
+  </div>
 </section>
 
 <style>
-  section {
+  /* Hero Section */
+
+  .hero {
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
+    justify-content: space-between;
+    padding: 6rem 2rem 2rem;
+    gap: 2rem;
+    min-height: 100dvh;
+    background-color: var(--background-color);
   }
 
-  h1 {
-    font-size: 3rem;
-    color: #333;
+  .hero-content {
+    flex: 1;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(1.5rem, 2vw + 1rem, 2.5rem);
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-weight: 800;
+  }
+
+  .hero-content p {
+    font-size: clamp(1rem, 1vw + 0.5rem, 1.1rem);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    font-family: var(--secondary-font-family);
+    letter-spacing: 0.05rem;
+  }
+
+  .site-btn {
+    display: inline-block;
+    padding: 0.875rem 1.25rem;
+    font-size: clamp(0.9rem, 0.6vw + 0.5rem, 1rem);
+    background-color: var(--secondary-color);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition:
+      background-color 300ms ease,
+      transform 300ms ease;
+  }
+
+  .site-btn:hover {
+    background-color: var(--btn-hover-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: scale(1.02);
+  }
+
+  .hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+
+  .hero-image::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    top: 20px;
+    left: 20px;
+    z-index: -1;
+    border-radius: 12px;
+    opacity: 0.1;
+  }
+
+  .hero-image img {
+    width: 100%;
+    max-height: 400px;
+    max-width: 400px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    filter: contrast(1.05) brightness(1.03);
+  }
+
+  /* Responsive Styling */
+  @media (max-width: 425px) {
+    .section-wrapper {
+      margin: 1em;
+      padding: 2em;
+    }
+  }
+
+  @media (max-width: 650px) {
+    .text-image-row,
+    .text-image-row.reverse-row {
+      flex-direction: column;
+    }
+    .float-image {
+      width: 100%;
+      max-width: 350px;
+      margin: 0 auto 1rem;
+      display: block;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .hero-image {
+      display: none;
+    }
+    .hero-content {
+      text-align: center;
+    }
   }
 </style>
