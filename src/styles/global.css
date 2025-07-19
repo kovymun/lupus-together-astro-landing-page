@@ -1,5 +1,40 @@
+:root {
+  --primary-color: #7b6cf6;
+  --secondary-color: #d69585;
+  --background-color: #faf8fc;
+  --btn-hover-color: #bf7262;
+  --text-color: #333333;
+  --muted-text-color: #777777;
+  --primary-font-family: "Quicksand", sans-serif;
+  --secondary-font-family: "Playfair Display", Georgia;
+}
+
+/* Resetting default Style settings */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body {
+  font-family: var(--primary-font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+h1 {
+  font-size: 3rem;
+  color: #333;
+}
+
+a {
+  cursor: pointer;
 }
