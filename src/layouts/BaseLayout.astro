@@ -1,0 +1,32 @@
+---
+// Props let you inject values from any page
+import "../styles/global.css";
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<!-- Base layout for the Astro site -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header>
+      <!-- <nav>
+        <a href="/">Home</a> | <a href="/about">About</a> | <a href="/services"
+          >Services</a
+        >
+      </nav> -->
+    </header>
+    <main>
+      <slot />
+    </main>
+    <!-- Footer -->
+    <footer>
+      <!-- <p>© {new Date().getFullYear()} My Astro Site</p> -->
+    </footer>
+  </body>
+</html>
