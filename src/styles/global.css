@@ -22,6 +22,10 @@ body {
   color: var(--text-color);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 section:not(#hero) {
   background-color: var(--background-color);
   text-align: center;
