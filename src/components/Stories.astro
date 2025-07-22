@@ -1,0 +1,228 @@
+---
+import { Icon } from "astro-icon/components";
+import fetchApi from "../lib/strapi"; // Adjust path if api.ts is elsewhere
+
+// Define interfaces for the image formats
+interface ImageFormat {
+  ext: string;
+  url: string;
+  hash: string;
+  mime: string;
+  name: string;
+  path: string | null;
+  size: number;
+  width: number;
+  height: number;
+  sizeInBytes: number;
+}
+
+interface ImageFormats {
+  small?: ImageFormat;
+  medium?: ImageFormat;
+  thumbnail?: ImageFormat;
+}
+
+// Define the Avatar structure
+interface AvatarData {
+  id: number;
+  documentId: string;
+  name: string;
+  alternativeText: string | null;
+  caption: string | null;
+  width: number;
+  height: number;
+  formats: ImageFormats;
+  hash: string;
+  ext: string;
+  mime: string;
+  size: number;
+  url: string; // This is the main URL for the image from Strapi
+  previewUrl: string | null;
+  provider: string;
+  provider_metadata: any | null;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+// Testimonial interface
+interface Testimonial {
+  id: number;
+  documentId: string;
+  name: string;
+  title: string;
+  quote: string;
+  city: string;
+  country: string;
+  date_posted: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  avatar: AvatarData | null;
+}
+
+const STRAPI_URL_IMAGES = import.meta.env.STRAPI_URL;
+
+let testimonials: Testimonial[] = [];
+let error: string | null = null;
+
+try {
+  // Use fetchApi wrapper.
+  testimonials = await fetchApi<Testimonial[]>({
+    endpoint: "testimonials",
+    query: {
+      populate: "*",
+    },
+    wrappedByKey: "data",
+  });
+
+  // Sort by date_posted in descending order (most recent first)
+  testimonials.sort((a, b) => {
+    const dateA = new Date(a.date_posted).getTime();
+    const dateB = new Date(b.date_posted).getTime();
+    return dateB - dateA; // descending order
+  });
+} catch (event: any) {
+  console.error("Error fetching testimonials:", event);
+  error = `Failed to load testimonials. Please try again later. Details: ${event.message}`;
+}
+---
+
+<section class="stories-section">
+  <div class="section-wrapper">
+    <div class="section-header">
+      <h2 class="section-title">Real Stories. Real Strength. Real Support.</h2>
+      <p>
+        Step into the lives of those who've faced Lupus, and found healing,
+        hope, and strength in community. These personal testimonials prove one
+        thing,{" "}
+        <strong>you're not alone, and you never have to be.</strong>
+      </p>
+    </div>
+    {
+      error ? (
+        <div class="status-message error" role="alert">
+          <p>Oops! We couldn't load the testimonials right now.</p>
+          <p>
+            Please check your internet connection or try again a little later.
+          </p>
+        </div>
+      ) : testimonials.length === 0 ? (
+        <div class="status-message info">
+          <p>
+            It looks a little quiet here! No stories to share at the moment.
+          </p>
+          <p>Check back soon for inspiring new testimonials.</p>
+        </div>
+      ) : (
+        <div class="story-content">
+          {testimonials.map((testimonial) => (
+            <article class="story-card">
+              <div class="avatar">
+                {testimonial.avatar && testimonial.avatar.url && (
+                  <img
+                    src={`${STRAPI_URL_IMAGES}${testimonial.avatar.url}`}
+                    alt={`Profile Image of ${testimonial.name}`}
+                  />
+                )}
+                <div class="avatar-title">
+                  <span>{testimonial.name}</span>
+                  <span>{`${testimonial.title} · ${testimonial.city}, ${testimonial.country}`}</span>
+                </div>
+              </div>
+              <blockquote>
+                <Icon
+                  name="quote"
+                  size={24}
+                  style={{
+                    marginRight: "8px",
+                    color: "var(--primary-color)",
+                  }}
+                />
+                {testimonial.quote}
+              </blockquote>
+              <p class="date-posted">
+                {new Date(testimonial.date_posted).toLocaleDateString()}
+              </p>
+            </article>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  :root {
+    --primary-color: #7b6cf6;
+    --text-color: #333333;
+    --muted-text-color: #777777;
+  }
+  .story-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: stretch;
+    margin: 0 auto;
+  }
+
+  .story-card {
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    border-top: 3px solid var(--primary-color);
+  }
+
+  .story-card .avatar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .story-card img {
+    width: clamp(60px, 10vw, 100px);
+    height: clamp(60px, 10vw, 100px);
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .avatar-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .avatar-title span:first-child {
+    font-size: clamp(1rem, 1.2vw + 0.5rem, 1.25rem);
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.25rem;
+  }
+
+  .avatar-title span:last-child {
+    font-size: clamp(0.75rem, 0.9vw + 0.4rem, 1rem);
+    color: #666666;
+  }
+
+  .story-card blockquote {
+    margin-top: 1.5rem;
+    font-size: clamp(0.85rem, 1vw + 0.3rem, 1rem);
+    font-style: italic;
+    text-align: justify;
+    line-height: 1.6;
+  }
+
+  .date-posted {
+    margin-top: 1.5rem;
+    text-align: left;
+    font-size: clamp(0.75rem, 0.9vw + 0.4rem, 1rem);
+    font-style: italic;
+    color: var(--muted-text-color);
+  }
+</style>
