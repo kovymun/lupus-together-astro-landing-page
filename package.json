@@ -3,13 +3,16 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "concurrently \"npm run astro:dev\" \"npm run backend:dev\"",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "astro:dev": "astro dev",
+    "backend:dev": "npm run develop --prefix ./backend"
   },
   "dependencies": {
     "astro": "^5.11.0",
-    "astro-icon": "^1.1.5"
+    "astro-icon": "^1.1.5",
+    "concurrently": "^9.2.0"
   }
 }
