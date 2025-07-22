@@ -1,49 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
-import fetchApi from "../lib/strapi"; // Adjust path if api.ts is elsewhere
-
-// Define interfaces for the image formats
-interface ImageFormat {
-  ext: string;
-  url: string;
-  hash: string;
-  mime: string;
-  name: string;
-  path: string | null;
-  size: number;
-  width: number;
-  height: number;
-  sizeInBytes: number;
-}
-
-interface ImageFormats {
-  small?: ImageFormat;
-  medium?: ImageFormat;
-  thumbnail?: ImageFormat;
-}
-
-// Define the Avatar structure
-interface AvatarData {
-  id: number;
-  documentId: string;
-  name: string;
-  alternativeText: string | null;
-  caption: string | null;
-  width: number;
-  height: number;
-  formats: ImageFormats;
-  hash: string;
-  ext: string;
-  mime: string;
-  size: number;
-  url: string; // This is the main URL for the image from Strapi
-  previewUrl: string | null;
-  provider: string;
-  provider_metadata: any | null;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-}
+import fetchApi from "../lib/strapi";
+import type ImageData from "../types/image";
 
 // Testimonial interface
 interface Testimonial {
@@ -58,7 +16,7 @@ interface Testimonial {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
-  avatar: AvatarData | null;
+  avatar: ImageData | null;
 }
 
 const STRAPI_URL_IMAGES = import.meta.env.STRAPI_URL;

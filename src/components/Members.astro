@@ -1,0 +1,286 @@
+---
+import fetchApi from "../lib/strapi";
+import type ImageData from "../types/image";
+import { Icon } from "astro-icon/components";
+
+interface Members {
+  id: number;
+  full_name: string;
+  role: string;
+  bio: string;
+  message: string;
+  email: string;
+  phone: string;
+  profile_img: ImageData | null;
+  alt: string;
+}
+
+const STRAPI_URL_IMAGES = import.meta.env.STRAPI_URL;
+
+let members: Members[] = [];
+let error: string | null = null;
+
+try {
+  // Use fetchApi wrapper.
+  members = await fetchApi<Members[]>({
+    endpoint: "members",
+    query: {
+      populate: "*",
+    },
+    wrappedByKey: "data",
+  });
+} catch (event: any) {
+  console.error("Error fetching Members:", event);
+  error = `Failed to load Members. Please try again later. Details: ${event.message}`;
+}
+---
+
+<section id="members" class="members-section" role="region">
+  <div class="section-wrapper">
+    <div class="section-header">
+      <h2 class="section-title">Meet the People Behind Lupus Together</h2>
+      <p>
+        At Lupus Together, we're fighters, caregivers, and advocates who turned
+        our stories into strength. Our lived experience drives everything we do,
+        creating a safe space for real lupus support and real understanding.
+        These are the hearts behind our mission, here to walk with you, uplift
+        you, and make sure no one faces lupus alone.
+      </p>
+    </div>
+    {
+      error ? (
+        <div class="status-message error" role="alert">
+          <p>Oops! We couldn't load the founding members right now.</p>
+          <p>
+            Please check your internet connection or try again a little later.
+          </p>
+        </div>
+      ) : members.length === 0 ? (
+        <div class="status-message info">
+          <p>
+            It looks a little quiet here! Check back soon as we prepare to
+            introduce our inspiring founding members!
+          </p>
+        </div>
+      ) : (
+        <div class="members-grid">
+          {members.map((member, index) => (
+            <div class="member-card">
+              <img
+                src={`${STRAPI_URL_IMAGES}${member.profile_img?.url}`}
+                alt={member.alt}
+                class="member-image"
+                loading="lazy"
+                style={{
+                  filter:
+                    index === 0
+                      ? "brightness(105%) saturate(90%)"
+                      : index === 1
+                        ? "brightness(95%) saturate(90%)"
+                        : "",
+                }}
+              />
+              <div class="card-content">
+                <h3 class="member-name">{member.full_name}</h3>
+                <p class="member-role">{member.role}</p>
+                <p class="member-bio">{member.bio}</p>
+                <div>
+                  <blockquote class="member-message">
+                    <Icon
+                      name="quote"
+                      size={24}
+                      style={{
+                        marginRight: "8px",
+                        color: "var(--primary-color)",
+                      }}
+                    />
+                    {member.message}
+                  </blockquote>
+
+                  <div class="member-contact">
+                    <div class="member-email">
+                      <strong>Email:</strong>{" "}
+                      <a href={`mailto:${member.email}`}>{member.email}</a>
+                    </div>
+                    <div class="member-phone">
+                      <strong>Phone:</strong> <span>{member.phone}</span>
+                    </div>
+                  </div>
+
+                  <div class="member-socials">
+                    <a
+                      href="#"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Facebook"
+                      title="Facebook"
+                    >
+                      <Icon name="facebook" />
+                    </a>
+                    <a
+                      href="#"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Instagram"
+                      title="Instagram"
+                    >
+                      <Icon name="insta" />
+                    </a>
+                    <a
+                      href="#"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Twitter"
+                      title="X / Twitter"
+                    >
+                      <Icon name="twitter" />
+                    </a>
+                    <a
+                      href="#"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Threads"
+                      title="Threads"
+                    >
+                      <Icon name="threads" />
+                    </a>
+                  </div>
+
+                  <button class="site-btn member-card-btn">Show More</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )
+    }
+  </div>
+
+  <style>
+    :root {
+      --primary-color: #7b6cf6;
+      --secondary-color: #d69585;
+      --accent-color: #ff8c42;
+      --text-color: #333333;
+      --muted-text-color: #777777;
+      --primary-font-family: "Quicksand", sans-serif;
+      --secondary-font-family: "Playfair Display", Georgia;
+      --btn-hover-color: #bf7262;
+    }
+
+    .members-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      justify-content: center;
+      align-items: stretch;
+      margin: 0 auto;
+    }
+
+    .member-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .member-name {
+      font-size: clamp(1rem, 1.5vw + 0.2rem, 1.5rem);
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .member-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--primary-color);
+    }
+
+    .card-content {
+      padding: 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .member-role {
+      font-size: clamp(0.9rem, 1.2vw + 0.2rem, 1.1rem);
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .member-bio {
+      font-size: clamp(0.85rem, 1vw + 0.2rem, 1rem);
+      margin-bottom: 1rem;
+      text-wrap: balance;
+      line-height: 1.6;
+    }
+
+    .member-message {
+      font-size: clamp(0.85rem, 1vw + 0.2rem, 1rem);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+      text-wrap: balance;
+      line-height: 1.6;
+    }
+
+    .member-contact {
+      font-size: 0.85rem;
+      color: var(--text-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .member-email {
+      margin-bottom: 0.5rem;
+    }
+
+    .member-contact a {
+      text-align: center;
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    .member-contact a:hover {
+      text-decoration: underline;
+    }
+
+    .member-socials {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 1.8rem 0;
+    }
+
+    .member-socials a {
+      background-color: #f0f0f0;
+      color: #444;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 300ms ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .member-socials a:hover {
+      transform: translateY(-2px) scale(1.05);
+      background-color: var(--primary-color);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .member-card-btn {
+      font-size: clamp(0.7rem, 0.5vw + 0.6rem, 0.8rem);
+      border-radius: 0%;
+      letter-spacing: 0.06em;
+      width: 100%;
+    }
+  </style>
+</section>
