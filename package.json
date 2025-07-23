@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "concurrently \"npm run astro:dev\" \"npm run backend:dev\"",
+    "dev": "concurrently \"npm run backend:dev\" \"npm run astro:dev\"",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
