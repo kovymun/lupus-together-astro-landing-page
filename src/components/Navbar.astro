@@ -10,11 +10,11 @@ import { Icon } from "astro-icon/components";
   </a>
 
   <ul class="navbar-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#lupus">Understanding Lupus</a></li>
-    <li><a href="#stories">Stories</a></li>
-    <li><a href="#members">Meet the Team</a></li>
-    <li><a href="#join">Get Involved</a></li>
+    <li><a class="navlink" href="#about">About</a></li>
+    <li><a class="navlink" href="#lupus">Understanding Lupus</a></li>
+    <li><a class="navlink" href="#stories">Stories</a></li>
+    <li><a class="navlink" href="#members">Meet the Team</a></li>
+    <li><a class="navlink" href="#join">Get Involved</a></li>
   </ul>
 
   <div class="navbar-phone-btn">
@@ -105,6 +105,25 @@ import { Icon } from "astro-icon/components";
     text-decoration: none;
     color: var(--text-color);
     font-weight: 500;
+    position: relative;
+  }
+
+  .navlink::after {
+    content: "";
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background-color: var(--secondary-color);
+    left: 0;
+    bottom: -8px;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s linear;
+  }
+
+  .navlink:hover::after {
+    transform-origin: bottom left;
+    transform: scaleX(1);
   }
 
   .navbar-cta {
