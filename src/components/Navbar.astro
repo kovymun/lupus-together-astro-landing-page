@@ -41,14 +41,7 @@ import { Icon } from "astro-icon/components";
         .classList.remove("mobile-nav-active");
     };
 
-    const navbar = document.getElementById("navbar");
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 0) {
-        navbar.classList.add("navbar-scrolled");
-      } else {
-        navbar.classList.remove("navbar-scrolled");
-      }
-    });
+   
   </script> -->
 </nav>
 
@@ -298,8 +291,7 @@ import { Icon } from "astro-icon/components";
     }
   }
 
-  /* Larger screen styling */
-
+  /* Responsive styling */
   @media screen and (min-width: 1100px) {
     .navbar-links .active {
       font-weight: bold;
@@ -309,3 +301,31 @@ import { Icon } from "astro-icon/components";
     }
   }
 </style>
+
+<script>
+  const navbarElement = document.getElementById("navbar");
+
+  let isNavbarScrolled = false;
+
+  const handleScrollEffect = () => {
+    // Determine if the page is currently scrolled
+    const scrolledNow = window.scrollY > 0;
+
+    // Only proceed if the navbar element exists AND the scroll values has changed
+    if (navbarElement && scrolledNow !== isNavbarScrolled) {
+      isNavbarScrolled = scrolledNow; // Update our tracking variable
+
+      if (scrolledNow) {
+        // if scrolled, add the class
+        navbarElement.classList.add("navbar-scrolled");
+      } else {
+        // if not scrolled, remove the class
+        navbarElement.classList.remove("navbar-scrolled");
+      }
+    }
+  };
+
+  window.addEventListener("scroll", handleScrollEffect, { passive: true });
+
+  handleScrollEffect();
+</script>
