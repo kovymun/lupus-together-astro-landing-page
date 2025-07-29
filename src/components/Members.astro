@@ -49,14 +49,14 @@ try {
     </div>
     {
       error ? (
-        <div class="status-message error" role="alert">
+        <div class="error-status-message" role="alert">
           <p>Oops! We couldn't load the founding members right now.</p>
           <p>
             Please check your internet connection or try again a little later.
           </p>
         </div>
       ) : members.length === 0 ? (
-        <div class="status-message info">
+        <div class="error-status-message">
           <p>
             It looks a little quiet here! Check back soon as we prepare to
             introduce our inspiring founding members!
