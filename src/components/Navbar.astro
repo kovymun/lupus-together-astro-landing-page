@@ -3,197 +3,34 @@
 import { Icon } from "astro-icon/components";
 ---
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    /** @type {HTMLElement | null} */
-    const navRef = document.querySelector(".navbar");
-    /** @type {HTMLButtonElement | null} */
-    const navToggle = document.querySelector(".navbar-toggle");
-    /** @type {HTMLUListElement | null} */
-    const navbarLinks = document.querySelector(".navbar-links");
-    /** @type {HTMLDivElement | null} */
-    const mobileNavOverlay = document.querySelector(".mobile-nav-overlay");
-    /** @type {boolean} */
-    let isMenuOpen = false;
-    /** @type {boolean} */
-    let isScrolled = false;
+<nav class="navbar">
+  <a href="#hero" class="brand-logo">
+    <Icon name="heart" size={20} />
+    <span class="navbar-brand">Lupus Together</span>
+  </a>
 
-    // Function to toggle mobile menu
-    const handleNavToggle = () => {
-      isMenuOpen = !isMenuOpen;
+  <ul class="navbar-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#lupus">Understanding Lupus</a></li>
+    <li><a href="#stories">Stories</a></li>
+    <li><a href="#members">Meet the Team</a></li>
+    <li><a href="#join">Get Involved</a></li>
+  </ul>
 
-      if (navbarLinks) {
-        navbarLinks.classList.toggle("mobile-nav-active", isMenuOpen);
-      }
-      if (mobileNavOverlay) {
-        mobileNavOverlay.classList.toggle(
-          "mobile-nav-overlay-active",
-          isMenuOpen
-        );
-      }
+  <div class="navbar-phone-btn">
+    <div class="default-text">Contact Us</div>
+    <div class="hover-text">011-456-7890</div>
+  </div>
 
-      if (isMenuOpen) {
-        document.body.classList.add("no-scroll");
-      } else {
-        document.body.classList.remove("no-scroll");
-      }
+  <button class="navbar-toggle">
+    <Icon name="bars" size={24} />
+  </button>
 
-      if (navToggle) {
-        /** @type {SVGElement | null} */
-        const icon = navToggle.querySelector("svg");
-        if (icon) {
-          if (isMenuOpen) {
-            // Cross icon
-            icon.outerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="currentColor" height="24" width="24">
-                <path d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/>
-              </svg>
-            `;
-          } else {
-            // Bars icon
-            icon.outerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="currentColor" height="24" width="24">
-                <path d="M96 160C96 142.3 110.3 128 128 128L512 128C529.7 128 544 142.3 544 160C544 177.7 529.7 192 512 192L128 192C110.3 192 96 177.7 96 160zM96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320zM544 480C544 497.7 529.7 512 512 512L128 512C110.3 512 96 497.7 96 480C96 462.3 110.3 448 128 448L512 448C529.7 448 544 462.3 544 480z"/>
-              </svg>
-            `;
-          }
-        }
-      }
-    };
+  <div class="mobile-nav-overlay"></div>
+</nav>
 
-    // Function to handle link selection and close menu
-    const handleLinkSelect = () => {
-      isMenuOpen = false;
-      if (navbarLinks) {
-        navbarLinks.classList.remove("mobile-nav-active");
-      }
-      if (mobileNavOverlay) {
-        mobileNavOverlay.classList.remove("mobile-nav-overlay-active");
-      }
-      document.body.classList.remove("no-scroll");
-
-      if (navToggle) {
-        /** @type {SVGElement | null} */
-        const icon = navToggle.querySelector("svg");
-        if (icon) {
-          // Reset to bars icon
-          icon.outerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="currentColor" height="24" width="24">
-              <path d="M96 160C96 142.3 110.3 128 128 128L512 128C529.7 128 544 142.3 544 160C544 177.7 529.7 192 512 192L128 192C110.3 192 96 177.7 96 160zM96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320zM544 480C544 497.7 529.7 512 512 512L128 512C110.3 512 96 497.7 96 480C96 462.3 110.3 448 128 448L512 448C529.7 448 544 462.3 544 480z"/>
-            </svg>
-          `;
-        }
-      }
-    };
-
-    // Scroll handler for navbar-scrolled class and active links
-    const handleScroll = () => {
-      const scrolled = window.scrollY > 0;
-
-      if (navRef && scrolled !== isScrolled) {
-        isScrolled = scrolled;
-
-        if (scrolled) {
-          navRef.classList.add("navbar-scrolled");
-        } else {
-          navRef.classList.remove("navbar-scrolled");
-        }
-      }
-
-      // Handle active class for links based on scroll position
-      /** @type {NodeListOf<HTMLElement>} */
-      const sections = document.querySelectorAll("section[id]");
-      /** @type {string | null} */
-      let currentActiveLink: string | null = null;
-
-      sections.forEach((section) => {
-        const sec = section as HTMLElement;
-        const sectionTop = sec.offsetTop - 90; // Offset for fixed header
-        const sectionBottom = sectionTop + sec.offsetHeight;
-
-        if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
-          currentActiveLink = sec.id;
-        }
-      });
-
-      /** @type {NodeListOf<HTMLAnchorElement>} */
-      const navLinks = document.querySelectorAll(".navbar-links a");
-      navLinks.forEach((link) => {
-        /** @type {string | undefined} */
-        const targetId = link.getAttribute("href")?.substring(1);
-        if (targetId === currentActiveLink) {
-          link.classList.add("active");
-        } else {
-          link.classList.remove("active");
-        }
-      });
-
-      // Handle active class for brand-logo specifically for 'home' section
-      const brandLogo = document.querySelector(".brand-logo");
-      if (brandLogo) {
-        if (currentActiveLink === "home") {
-          brandLogo.classList.add("active");
-        } else {
-          brandLogo.classList.remove("active");
-        }
-      }
-    };
-
-    // Smooth scrolling for navigation links
-    // IMPORTANT CHANGE: Ensure .brand-logo is reliably selected
-    /** @type {NodeListOf<HTMLAnchorElement>} */
-    const scrollAnchors = document.querySelectorAll(
-      ".navbar-links a, a.brand-logo"
-    ); // <-- Changed selector
-    scrollAnchors.forEach((anchor) => {
-      anchor.addEventListener("click", function (e: Event) {
-        e.preventDefault();
-
-        // Remove 'active' from all nav links when any link is clicked
-        document
-          .querySelectorAll(".navbar-links a.active, .brand-logo.active")
-          .forEach((link) => {
-            link.classList.remove("active");
-          });
-
-        const targetId = (e.currentTarget as HTMLAnchorElement)
-          .getAttribute("href")
-          ?.substring(1);
-        const targetElement = document.getElementById(targetId || "home");
-
-        if (targetElement) {
-          const offset = targetId === "home" ? -80 : -90;
-          const elementPosition =
-            targetElement.getBoundingClientRect().top + window.scrollY;
-          const offsetPosition = elementPosition + offset;
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth",
-          });
-          handleLinkSelect(); // Close mobile menu after clicking a link
-
-          // Immediately add 'active' class to the clicked link (for instant feedback)
-          (e.currentTarget as HTMLAnchorElement).classList.add("active");
-        }
-      });
-    });
-
-    // Event listeners
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    if (navToggle) {
-      navToggle.addEventListener("click", handleNavToggle);
-    }
-    if (mobileNavOverlay) {
-      mobileNavOverlay.addEventListener("click", handleNavToggle);
-    }
-
-    // Initial check on load
-    handleScroll();
-  });
-</script>
-
-<style>
+<!-- IMPORTANT FIX: Moved <style> block here, after HTML and before <script> -->
+<style lang="css">
   :root {
     --primary-color: #7b6cf6;
     --secondary-color: #d69585;
@@ -482,28 +319,198 @@ import { Icon } from "astro-icon/components";
   }
 </style>
 
-<nav class="navbar">
-  <a href="#hero" class="brand-logo">
-    <Icon name="heart" size="20px" />
-    <span class="navbar-brand">Lupus Together</span>
-  </a>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    /** @type {HTMLElement | null} */
+    const navRef = document.querySelector(".navbar");
+    /** @type {HTMLButtonElement | null} */
+    const navToggle = document.querySelector(".navbar-toggle");
+    /** @type {HTMLUListElement | null} */
+    const navbarLinks = document.querySelector(".navbar-links");
+    /** @type {HTMLDivElement | null} */
+    const mobileNavOverlay = document.querySelector(".mobile-nav-overlay");
+    /** @type {boolean} */
+    let isMenuOpen = false;
+    /** @type {boolean} */
+    let isScrolled = false;
 
-  <ul class="navbar-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#lupus">Understanding Lupus</a></li>
-    <li><a href="#stories">Stories</a></li>
-    <li><a href="#members">Meet the Team</a></li>
-    <li><a href="#join">Get Involved</a></li>
-  </ul>
+    // Function to toggle mobile menu
+    const handleNavToggle = () => {
+      isMenuOpen = !isMenuOpen;
 
-  <div class="navbar-phone-btn">
-    <div class="default-text">Contact Us</div>
-    <div class="hover-text">011-456-7890</div>
-  </div>
+      if (navbarLinks) {
+        navbarLinks.classList.toggle("mobile-nav-active", isMenuOpen);
+      }
+      if (mobileNavOverlay) {
+        mobileNavOverlay.classList.toggle(
+          "mobile-nav-overlay-active",
+          isMenuOpen
+        );
+      }
 
-  <button class="navbar-toggle">
-    <Icon name="bars" size="24px" />
-  </button>
+      if (isMenuOpen) {
+        document.body.classList.add("no-scroll");
+      } else {
+        document.body.classList.remove("no-scroll");
+      }
 
-  <div class="mobile-nav-overlay"></div>
-</nav>
+      if (navToggle) {
+        /** @type {SVGElement | null} */
+        const icon = navToggle.querySelector("svg");
+        if (icon) {
+          if (isMenuOpen) {
+            // Cross icon
+            icon.outerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="currentColor" height="24" width="24">
+                <path d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/>
+              </svg>
+            `;
+          } else {
+            // Bars icon
+            icon.outerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="currentColor" height="24" width="24">
+                <path d="M96 160C96 142.3 110.3 128 128 128L512 128C529.7 128 544 142.3 544 160C544 177.7 529.7 192 512 192L128 192C110.3 192 96 177.7 96 160zM96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320zM544 480C544 497.7 529.7 512 512 512L128 512C110.3 512 96 497.7 96 480C96 462.3 110.3 448 128 448L512 448C529.7 448 544 462.3 544 480z"/>
+              </svg>
+            `;
+          }
+        }
+      }
+    };
+
+    // Function to handle link selection and close menu
+    const handleLinkSelect = () => {
+      isMenuOpen = false;
+      if (navbarLinks) {
+        navbarLinks.classList.remove("mobile-nav-active");
+      }
+      if (mobileNavOverlay) {
+        mobileNavOverlay.classList.remove("mobile-nav-overlay-active");
+      }
+      document.body.classList.remove("no-scroll");
+
+      if (navToggle) {
+        /** @type {SVGElement | null} */
+        const icon = navToggle.querySelector("svg");
+        if (icon) {
+          // Reset to bars icon
+          icon.outerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="currentColor" height="24" width="24">
+              <path d="M96 160C96 142.3 110.3 128 128 128L512 128C529.7 128 544 142.3 544 160C544 177.7 529.7 192 512 192L128 192C110.3 192 96 177.7 96 160zM96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320zM544 480C544 497.7 529.7 512 512 512L128 512C110.3 512 96 497.7 96 480C96 462.3 110.3 448 128 448L512 448C529.7 448 544 462.3 544 480z"/>
+            </svg>
+          `;
+        }
+      }
+    };
+
+    // Scroll handler for navbar-scrolled class and active links
+    const handleScroll = () => {
+      const scrolled = window.scrollY > 0;
+
+      if (navRef && scrolled !== isScrolled) {
+        isScrolled = scrolled;
+
+        if (scrolled) {
+          navRef.classList.add("navbar-scrolled");
+        } else {
+          navRef.classList.remove("navbar-scrolled");
+        }
+      }
+
+      // Handle active class for links based on scroll position
+      /** @type {NodeListOf<HTMLElement>} */
+      const sections = document.querySelectorAll("section[id]");
+      /** @type {string | null} */
+      let currentActiveLink: string | null = null; // Explicitly typed as string or null
+
+      sections.forEach((section) => {
+        /** @type {HTMLElement} */ // JSDoc for type casting
+        const sec = section as HTMLElement;
+        const sectionTop = sec.offsetTop - 90; // Offset for fixed header
+        const sectionBottom = sectionTop + sec.offsetHeight;
+
+        if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+          currentActiveLink = sec.id;
+        }
+      });
+
+      /** @type {NodeListOf<HTMLAnchorElement>} */
+      const navLinks = document.querySelectorAll(".navbar-links a");
+      navLinks.forEach((link) => {
+        /** @type {string | undefined} */
+        const targetId = link.getAttribute("href")?.substring(1);
+        if (targetId === currentActiveLink) {
+          link.classList.add("active");
+        } else {
+          link.classList.remove("active");
+        }
+      });
+
+      // Handle active class for brand-logo specifically for 'home' section
+      const brandLogo = document.querySelector(".brand-logo");
+      if (brandLogo) {
+        if (currentActiveLink === "hero") {
+          // Changed to 'hero' as per your HTML
+          brandLogo.classList.add("active");
+        } else {
+          brandLogo.classList.remove("active");
+        }
+      }
+    };
+
+    // Smooth scrolling for navigation links
+    /** @type {NodeListOf<HTMLAnchorElement>} */
+    const scrollAnchors = document.querySelectorAll(
+      ".navbar-links a, .brand-logo" // Simplified selector, it should work this way
+    );
+    scrollAnchors.forEach((anchor) => {
+      anchor.addEventListener(
+        "click",
+        /** @param {Event} e */ function (e) {
+          e.preventDefault();
+
+          // Remove 'active' from all nav links when any link is clicked
+          document
+            .querySelectorAll(".navbar-links a.active, .brand-logo.active")
+            .forEach((link) => {
+              link.classList.remove("active");
+            });
+
+          /** @type {HTMLAnchorElement | null} */ // Cast currentTarget for type safety
+          const clickedAnchor = e.currentTarget as HTMLAnchorElement | null;
+          if (!clickedAnchor) return;
+
+          const targetId = clickedAnchor.getAttribute("href")?.substring(1);
+          const targetElement = document.getElementById(targetId || "hero"); // Default to 'hero'
+
+          if (targetElement) {
+            const offset = targetId === "hero" ? -80 : -90; // Adjust offset for 'hero' vs other sections
+            const elementPosition =
+              targetElement.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = elementPosition + offset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth",
+            });
+            handleLinkSelect(); // Close mobile menu after clicking a link
+
+            // Immediately add 'active' class to the clicked link (for instant feedback)
+            clickedAnchor.classList.add("active");
+          }
+        }
+      );
+    });
+
+    // Event listeners
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    if (navToggle) {
+      navToggle.addEventListener("click", handleNavToggle);
+    }
+    if (mobileNavOverlay) {
+      mobileNavOverlay.addEventListener("click", handleNavToggle);
+    }
+
+    // Initial check on load
+    handleScroll();
+  });
+</script>
