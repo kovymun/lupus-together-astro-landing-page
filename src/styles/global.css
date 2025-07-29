@@ -2,6 +2,7 @@
   --primary-color: #7b6cf6;
   --secondary-color: #d69585;
   --background-color: #faf8fc;
+  --quote-background-color: #faf8fc;
   --btn-hover-color: #bf7262;
   --text-color: #333333;
   --muted-text-color: #777777;
@@ -68,6 +69,22 @@ section:not(#hero) {
 
 a {
   cursor: pointer;
+}
+
+.error-status-message {
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: var(--secondary-font-family);
+  background-color: var(--quote-background-color);
+  border-left: 4px solid var(--primary-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 1rem 1.5rem;
+  margin-top: 2rem;
+  font-style: italic;
+  color: var(--muted-text-color);
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  line-height: 1.8;
+  letter-spacing: 0.08rem;
 }
 
 /* Hero Section */

@@ -59,14 +59,14 @@ try {
     </div>
     {
       error ? (
-        <div class="status-message error" role="alert">
+        <div class="error-status-message" role="alert">
           <p>Oops! We couldn't load the testimonials right now.</p>
           <p>
             Please check your internet connection or try again a little later.
           </p>
         </div>
       ) : testimonials.length === 0 ? (
-        <div class="status-message info">
+        <div class="error-status-message">
           <p>
             It looks a little quiet here! No stories to share at the moment.
           </p>
