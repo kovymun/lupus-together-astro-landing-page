@@ -26,6 +26,10 @@ html {
   scroll-behavior: smooth;
 }
 
+section[id] {
+  scroll-margin-top: 90px; /* Adjust this to match your navbar's height + desired padding */
+}
+
 section:not(#hero) {
   background-color: var(--background-color);
   text-align: center;
