@@ -3,18 +3,18 @@
 import { Icon } from "astro-icon/components";
 ---
 
-<nav class="navbar">
+<nav class="navbar" id="navbar">
   <a href="#hero" class="brand-logo">
     <Icon name="heart" size={20} />
     <span class="navbar-brand">Lupus Together</span>
   </a>
 
   <ul class="navbar-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#lupus">Understanding Lupus</a></li>
-    <li><a href="#stories">Stories</a></li>
-    <li><a href="#members">Meet the Team</a></li>
-    <li><a href="#join">Get Involved</a></li>
+    <li><a class="navlink" href="#about">About</a></li>
+    <li><a class="navlink" href="#lupus">Understanding Lupus</a></li>
+    <li><a class="navlink" href="#stories">Stories</a></li>
+    <li><a class="navlink" href="#members">Meet the Team</a></li>
+    <li><a class="navlink" href="#join">Get Involved</a></li>
   </ul>
 
   <div class="navbar-phone-btn">
@@ -22,15 +22,38 @@ import { Icon } from "astro-icon/components";
     <div class="hover-text">011-456-7890</div>
   </div>
 
-  <button class="navbar-toggle">
-    <Icon name="bars" size={24} />
-  </button>
+  <!-- <button class="navbar-toggle" onclick="toggleMenu()">
+    <FaBars size={24} />
+  </button> -->
 
-  <div class="mobile-nav-overlay"></div>
+  <!-- <div class="mobile-nav-overlay" onclick="closeMenu()"></div> -->
+
+  <!-- <script is:inline>
+    const toggleMenu = () => {
+      document
+        .querySelector(".navbar-links")
+        .classList.toggle("mobile-nav-active");
+    };
+
+    const closeMenu = () => {
+      document
+        .querySelector(".navbar-links")
+        .classList.remove("mobile-nav-active");
+    };
+
+    const navbar = document.getElementById("navbar");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 0) {
+        navbar.classList.add("navbar-scrolled");
+      } else {
+        navbar.classList.remove("navbar-scrolled");
+      }
+    });
+  </script> -->
 </nav>
 
-<!-- IMPORTANT FIX: Moved <style> block here, after HTML and before <script> -->
-<style lang="css">
+<!-- Navbar CSS Styles -->
+<style>
   :root {
     --primary-color: #7b6cf6;
     --secondary-color: #d69585;
@@ -38,10 +61,6 @@ import { Icon } from "astro-icon/components";
     --text-color: #333333;
     --primary-font-family: "Quicksand", sans-serif;
     --secondary-font-family: "Playfair Display", Georgia;
-  }
-
-  body.no-scroll {
-    overflow: hidden;
   }
 
   /* Navbar Base Styles */
@@ -76,21 +95,12 @@ import { Icon } from "astro-icon/components";
     text-decoration: none;
   }
 
-  /* Specific styling for brand-logo when it's active (only on large screens) */
-  @media screen and (min-width: 1100px) {
-    .brand-logo.active {
-      color: var(--primary-color);
-      font-weight: bold;
-    }
-  }
-
   .navbar-links {
     list-style: none;
     display: flex;
     gap: 3rem;
   }
 
-  /* Base navlink styling - only add position: relative here */
   .navbar-links a {
     text-decoration: none;
     color: var(--text-color);
@@ -150,7 +160,7 @@ import { Icon } from "astro-icon/components";
   /* Hamburger Hidden by Default */
   .navbar-toggle {
     display: none;
-    color: var(--primary-color); /* Initial color: purple */
+    color: var(--primary-color);
   }
 
   .navbar-toggle:active {
@@ -166,19 +176,8 @@ import { Icon } from "astro-icon/components";
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.2);
-    z-index: 4; /* Behind the menu and toggle */
+    z-index: 4;
     animation: fadeIn 300ms ease forwards;
-    display: none; /* Hidden by default */
-  }
-
-  .mobile-nav-overlay-active {
-    display: block; /* Shown when active */
-  }
-
-  /* Rule for white cross icon when menu is active */
-  .navbar-links.mobile-nav-active + .navbar-toggle {
-    color: white; /* Make the icon white when the mobile menu is active */
-    z-index: 7; /* Ensure the toggle button is above the overlay */
   }
 
   /* Animations */
@@ -233,7 +232,7 @@ import { Icon } from "astro-icon/components";
       padding: 2rem;
       transition: right 300ms ease;
       box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-      z-index: 6; /* Menu is above overlay */
+      z-index: 6;
     }
 
     .navbar-links.mobile-nav-active {
@@ -271,21 +270,20 @@ import { Icon } from "astro-icon/components";
       display: block;
       background: none;
       border: none;
-      z-index: 10; /* Ensure toggle is always on top initially */
+      z-index: 10;
     }
 
-    /* Mobile specific active link styling - this removes the border-bottom */
     .navbar-links .active {
-      font-weight: normal; /* Override to ensure it's normal on mobile */
+      font-weight: normal;
       color: inherit;
       border-bottom: none;
     }
   }
 
   /* Larger screen styling */
+
   @media screen and (min-width: 1100px) {
-    /* Apply the ::after pseudo-element to all nav links */
-    .navbar-links a::after {
+    .navlink::after {
       content: "";
       position: absolute;
       height: 3px;
@@ -299,218 +297,43 @@ import { Icon } from "astro-icon/components";
     }
 
     /* Hover effect */
-    .navbar-links a:hover::after {
+    .navlink:hover::after {
       transform-origin: bottom left; /* Grows from left on hover */
       transform: scaleX(1); /* Fully visible */
     }
-
-    /* Active state (scroll OR click) */
-    .navbar-links a.active::after {
-      transform-origin: bottom left; /* Consistent growth */
-      transform: scaleX(1); /* Fully visible when active */
-    }
-
-    /* Override old .active styles for regular nav links for large screens */
-    .navbar-links .active {
-      font-weight: 500; /* Revert font weight to normal */
-      color: var(--text-color); /* Revert text color to normal */
-      border-bottom: none; /* Remove old border-bottom */
-    }
+    /* .navbar-links .active {
+      font-weight: bold;
+      color: var(--primary-color);
+      border-bottom: 3px solid var(--secondary-color);
+      transition: all 0.3s ease;
+    } */
   }
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    /** @type {HTMLElement | null} */
-    const navRef = document.querySelector(".navbar");
-    /** @type {HTMLButtonElement | null} */
-    const navToggle = document.querySelector(".navbar-toggle");
-    /** @type {HTMLUListElement | null} */
-    const navbarLinks = document.querySelector(".navbar-links");
-    /** @type {HTMLDivElement | null} */
-    const mobileNavOverlay = document.querySelector(".mobile-nav-overlay");
-    /** @type {boolean} */
-    let isMenuOpen = false;
-    /** @type {boolean} */
-    let isScrolled = false;
+  const navbarElement = document.getElementById("navbar");
 
-    // Function to toggle mobile menu
-    const handleNavToggle = () => {
-      isMenuOpen = !isMenuOpen;
+  let isNavbarScrolled = false;
 
-      if (navbarLinks) {
-        navbarLinks.classList.toggle("mobile-nav-active", isMenuOpen);
-      }
-      if (mobileNavOverlay) {
-        mobileNavOverlay.classList.toggle(
-          "mobile-nav-overlay-active",
-          isMenuOpen
-        );
-      }
+  const handleScrollEffect = () => {
+    // Determine if the page is currently scrolled
+    const scrolledNow = window.scrollY > 0;
 
-      if (isMenuOpen) {
-        document.body.classList.add("no-scroll");
+    // Only proceed if the navbar element exists AND the scroll values has changed
+    if (navbarElement && scrolledNow !== isNavbarScrolled) {
+      isNavbarScrolled = scrolledNow; // Update our tracking variable
+
+      if (scrolledNow) {
+        // if scrolled, add the class
+        navbarElement.classList.add("navbar-scrolled");
       } else {
-        document.body.classList.remove("no-scroll");
+        // if not scrolled, remove the class
+        navbarElement.classList.remove("navbar-scrolled");
       }
-
-      if (navToggle) {
-        /** @type {SVGElement | null} */
-        const icon = navToggle.querySelector("svg");
-        if (icon) {
-          if (isMenuOpen) {
-            // Cross icon
-            icon.outerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="currentColor" height="24" width="24">
-                <path d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/>
-              </svg>
-            `;
-          } else {
-            // Bars icon
-            icon.outerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="currentColor" height="24" width="24">
-                <path d="M96 160C96 142.3 110.3 128 128 128L512 128C529.7 128 544 142.3 544 160C544 177.7 529.7 192 512 192L128 192C110.3 192 96 177.7 96 160zM96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320zM544 480C544 497.7 529.7 512 512 512L128 512C110.3 512 96 497.7 96 480C96 462.3 110.3 448 128 448L512 448C529.7 448 544 462.3 544 480z"/>
-              </svg>
-            `;
-          }
-        }
-      }
-    };
-
-    // Function to handle link selection and close menu
-    const handleLinkSelect = () => {
-      isMenuOpen = false;
-      if (navbarLinks) {
-        navbarLinks.classList.remove("mobile-nav-active");
-      }
-      if (mobileNavOverlay) {
-        mobileNavOverlay.classList.remove("mobile-nav-overlay-active");
-      }
-      document.body.classList.remove("no-scroll");
-
-      if (navToggle) {
-        /** @type {SVGElement | null} */
-        const icon = navToggle.querySelector("svg");
-        if (icon) {
-          // Reset to bars icon
-          icon.outerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="currentColor" height="24" width="24">
-              <path d="M96 160C96 142.3 110.3 128 128 128L512 128C529.7 128 544 142.3 544 160C544 177.7 529.7 192 512 192L128 192C110.3 192 96 177.7 96 160zM96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320zM544 480C544 497.7 529.7 512 512 512L128 512C110.3 512 96 497.7 96 480C96 462.3 110.3 448 128 448L512 448C529.7 448 544 462.3 544 480z"/>
-            </svg>
-          `;
-        }
-      }
-    };
-
-    // Scroll handler for navbar-scrolled class and active links
-    const handleScroll = () => {
-      const scrolled = window.scrollY > 0;
-
-      if (navRef && scrolled !== isScrolled) {
-        isScrolled = scrolled;
-
-        if (scrolled) {
-          navRef.classList.add("navbar-scrolled");
-        } else {
-          navRef.classList.remove("navbar-scrolled");
-        }
-      }
-
-      // Handle active class for links based on scroll position
-      /** @type {NodeListOf<HTMLElement>} */
-      const sections = document.querySelectorAll("section[id]");
-      /** @type {string | null} */
-      let currentActiveLink: string | null = null; // Explicitly typed as string or null
-
-      sections.forEach((section) => {
-        /** @type {HTMLElement} */ // JSDoc for type casting
-        const sec = section as HTMLElement;
-        const sectionTop = sec.offsetTop - 90; // Offset for fixed header
-        const sectionBottom = sectionTop + sec.offsetHeight;
-
-        if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
-          currentActiveLink = sec.id;
-        }
-      });
-
-      /** @type {NodeListOf<HTMLAnchorElement>} */
-      const navLinks = document.querySelectorAll(".navbar-links a");
-      navLinks.forEach((link) => {
-        /** @type {string | undefined} */
-        const targetId = link.getAttribute("href")?.substring(1);
-        if (targetId === currentActiveLink) {
-          link.classList.add("active");
-        } else {
-          link.classList.remove("active");
-        }
-      });
-
-      // Handle active class for brand-logo specifically for 'home' section
-      const brandLogo = document.querySelector(".brand-logo");
-      if (brandLogo) {
-        if (currentActiveLink === "hero") {
-          // Changed to 'hero' as per your HTML
-          brandLogo.classList.add("active");
-        } else {
-          brandLogo.classList.remove("active");
-        }
-      }
-    };
-
-    // Smooth scrolling for navigation links
-    /** @type {NodeListOf<HTMLAnchorElement>} */
-    const scrollAnchors = document.querySelectorAll(
-      ".navbar-links a, .brand-logo" // Simplified selector, it should work this way
-    );
-    scrollAnchors.forEach((anchor) => {
-      anchor.addEventListener(
-        "click",
-        /** @param {Event} e */ function (e) {
-          e.preventDefault();
-
-          // Remove 'active' from all nav links when any link is clicked
-          document
-            .querySelectorAll(".navbar-links a.active, .brand-logo.active")
-            .forEach((link) => {
-              link.classList.remove("active");
-            });
-
-          /** @type {HTMLAnchorElement | null} */ // Cast currentTarget for type safety
-          const clickedAnchor = e.currentTarget as HTMLAnchorElement | null;
-          if (!clickedAnchor) return;
-
-          const targetId = clickedAnchor.getAttribute("href")?.substring(1);
-          const targetElement = document.getElementById(targetId || "hero"); // Default to 'hero'
-
-          if (targetElement) {
-            const offset = targetId === "hero" ? -80 : -90; // Adjust offset for 'hero' vs other sections
-            const elementPosition =
-              targetElement.getBoundingClientRect().top + window.scrollY;
-            const offsetPosition = elementPosition + offset;
-
-            window.scrollTo({
-              top: offsetPosition,
-              behavior: "smooth",
-            });
-            handleLinkSelect(); // Close mobile menu after clicking a link
-
-            // Immediately add 'active' class to the clicked link (for instant feedback)
-            clickedAnchor.classList.add("active");
-          }
-        }
-      );
-    });
-
-    // Event listeners
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    if (navToggle) {
-      navToggle.addEventListener("click", handleNavToggle);
     }
-    if (mobileNavOverlay) {
-      mobileNavOverlay.addEventListener("click", handleNavToggle);
-    }
+  };
 
-    // Initial check on load
-    handleScroll();
-  });
+  window.addEventListener("scroll", handleScrollEffect, { passive: true });
+
+  handleScrollEffect();
 </script>
