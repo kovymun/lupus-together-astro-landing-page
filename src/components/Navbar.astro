@@ -290,17 +290,17 @@ import { Icon } from "astro-icon/components";
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
-    const navbarElement = document.getElementById("navbar");
+    const navbarElement: HTMLElement | null = document.getElementById("navbar");
 
-    let isNavbarScrolled = false;
+    let isNavbarScrolled: boolean = false;
 
-    const handleScrollEffect = () => {
+    const handleScrollEffect = (): void => {
       // Determine if the page is currently scrolled
-      const scrolledNow = window.scrollY > 0;
+      const scrolledNow: boolean = window.scrollY > 0;
 
       // Only proceed if the navbar element exists AND the scroll values has changed
       if (navbarElement && scrolledNow !== isNavbarScrolled) {
-        isNavbarScrolled = scrolledNow; // Update our tracking variable
+        isNavbarScrolled = scrolledNow; // Update tracking variable
 
         if (scrolledNow) {
           // if scrolled, add the class
@@ -330,7 +330,6 @@ import { Icon } from "astro-icon/components";
     };
 
     menuToggleButton?.addEventListener("click", toggleMenu);
-
     mobileNavOverlay?.addEventListener("click", toggleMenu);
 
     // Loop through each navigation link to close the menu when it's clicked
@@ -365,6 +364,47 @@ import { Icon } from "astro-icon/components";
         }
       }
     };
+
+    // Handle active class for links based on scroll position
+    /** @type {NodeListOf<HTMLElement>} */
+    const sections = document.querySelectorAll("section[id]");
+    // const navLinks = document.querySelectorAll(".navlink"); // Select all nav links
+
+    // Function to handle the scroll event
+    const handleScroll = () => {
+      /** @type {string | null} */
+      let currentActiveLink = null;
+
+      // Determine which section is currently in view
+      sections.forEach((section) => {
+        /** @type {HTMLElement} */ // JSDoc for type casting
+        const sec = section as HTMLElement;
+        const sectionTop = sec.offsetTop - 90; // Offset for fixed header
+        const sectionBottom = sectionTop + sec.offsetHeight;
+
+        if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+          currentActiveLink = sec.id;
+        }
+      });
+
+      // Remove the 'active' class from all links
+      navLinks.forEach((link) => {
+        link.classList.remove("active");
+      });
+
+      // Add the 'active' class to the corresponding link
+      if (currentActiveLink) {
+        const activeLink = document.querySelector(
+          `.navlink[href="#${currentActiveLink}"]`
+        );
+        if (activeLink) {
+          activeLink.classList.add("active");
+        }
+      }
+    };
+
+    // Add the scroll event listener to the window
+    window.addEventListener("scroll", handleScroll);
 
     // Event listeners to update the active link
     window.addEventListener("hashchange", setActiveLink);
