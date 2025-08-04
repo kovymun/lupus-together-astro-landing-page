@@ -279,16 +279,11 @@ import { Icon } from "astro-icon/components";
     }
 
     /* Hover effect */
-    .navlink:hover::after {
+    .navlink:hover::after,
+    .navlink.active::after {
       transform-origin: bottom left; /* Grows from left on hover */
       transform: scaleX(1); /* Fully visible */
     }
-    /* .navbar-links .active {
-      font-weight: bold;
-      color: var(--primary-color);
-      border-bottom: 3px solid var(--secondary-color);
-      transition: all 0.3s ease;
-    } */
   }
 </style>
 
@@ -316,8 +311,6 @@ import { Icon } from "astro-icon/components";
         }
       }
     };
-
-    window.addEventListener("scroll", handleScrollEffect, { passive: true });
 
     handleScrollEffect();
 
@@ -349,5 +342,32 @@ import { Icon } from "astro-icon/components";
         }
       });
     });
+
+    /* -- ACTIVE NAVLINK -- */
+    const navLink = document.querySelectorAll(".navlink");
+
+    const setActiveLink = () => {
+      // Get the current URL hash (e.g., "#about" | #members)
+      const currentHash = window.location.hash;
+
+      // Remove the 'active' class from all links first
+      navLink.forEach((link) => {
+        link.classList.remove("active");
+      });
+
+      // Find the link that matches the current hash and add the 'active' class
+      if (currentHash) {
+        const activeLink = document.querySelector(
+          `.navlink[href="${currentHash}"]`
+        );
+        if (activeLink) {
+          activeLink.classList.add("active");
+        }
+      }
+    };
+
+    // Event listeners to update the active link
+    window.addEventListener("hashchange", setActiveLink);
+    window.addEventListener("scroll", handleScrollEffect, { passive: true });
   });
 </script>
