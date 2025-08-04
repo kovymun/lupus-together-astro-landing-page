@@ -22,34 +22,11 @@ import { Icon } from "astro-icon/components";
     <div class="hover-text">011-456-7890</div>
   </div>
 
-  <!-- <button class="navbar-toggle" onclick="toggleMenu()">
-    <FaBars size={24} />
-  </button> -->
+  <button class="navbar-toggle">
+    <Icon name="bars" size={24} />
+  </button>
 
-  <!-- <div class="mobile-nav-overlay" onclick="closeMenu()"></div> -->
-
-  <!-- <script is:inline>
-    const toggleMenu = () => {
-      document
-        .querySelector(".navbar-links")
-        .classList.toggle("mobile-nav-active");
-    };
-
-    const closeMenu = () => {
-      document
-        .querySelector(".navbar-links")
-        .classList.remove("mobile-nav-active");
-    };
-
-    const navbar = document.getElementById("navbar");
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 0) {
-        navbar.classList.add("navbar-scrolled");
-      } else {
-        navbar.classList.remove("navbar-scrolled");
-      }
-    });
-  </script> -->
+  <div id="mobile-nav-overlay" class="mobile-nav-overlay"></div>
 </nav>
 
 <!-- Navbar CSS Styles -->
@@ -169,7 +146,9 @@ import { Icon } from "astro-icon/components";
   }
 
   /* Mobile Nav Overlay */
+
   .mobile-nav-overlay {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -178,6 +157,10 @@ import { Icon } from "astro-icon/components";
     background: rgba(0, 0, 0, 0.2);
     z-index: 4;
     animation: fadeIn 300ms ease forwards;
+  }
+
+  .mobile-nav-overlay.active {
+    display: block;
   }
 
   /* Animations */
@@ -311,29 +294,61 @@ import { Icon } from "astro-icon/components";
 </style>
 
 <script>
-  const navbarElement = document.getElementById("navbar");
+  document.addEventListener("DOMContentLoaded", () => {
+    const body = document.body;
+    const navbarElement = document.getElementById("navbar");
 
-  let isNavbarScrolled = false;
+    let isNavbarScrolled = false;
 
-  const handleScrollEffect = () => {
-    // Determine if the page is currently scrolled
-    const scrolledNow = window.scrollY > 0;
+    const handleScrollEffect = () => {
+      // Determine if the page is currently scrolled
+      const scrolledNow = window.scrollY > 0;
 
-    // Only proceed if the navbar element exists AND the scroll values has changed
-    if (navbarElement && scrolledNow !== isNavbarScrolled) {
-      isNavbarScrolled = scrolledNow; // Update our tracking variable
+      // Only proceed if the navbar element exists AND the scroll values has changed
+      if (navbarElement && scrolledNow !== isNavbarScrolled) {
+        isNavbarScrolled = scrolledNow; // Update our tracking variable
 
-      if (scrolledNow) {
-        // if scrolled, add the class
-        navbarElement.classList.add("navbar-scrolled");
-      } else {
-        // if not scrolled, remove the class
-        navbarElement.classList.remove("navbar-scrolled");
+        if (scrolledNow) {
+          // if scrolled, add the class
+          navbarElement.classList.add("navbar-scrolled");
+        } else {
+          // if not scrolled, remove the class
+          navbarElement.classList.remove("navbar-scrolled");
+        }
       }
-    }
-  };
+    };
 
-  window.addEventListener("scroll", handleScrollEffect, { passive: true });
+    window.addEventListener("scroll", handleScrollEffect, { passive: true });
 
-  handleScrollEffect();
+    handleScrollEffect();
+
+    /* -- MOBILE NAV-MENU TOGGLE -- */
+
+    const menuToggleButton = document.querySelector(".navbar-toggle");
+    const navbarLinks = document.querySelector(".navbar-links");
+    const mobileNavOverlay = document.getElementById("mobile-nav-overlay");
+    const navLinks = document.querySelectorAll(".navbar-links a");
+
+    // Single function to toggle the mobile menu state
+    const toggleMenu = () => {
+      navbarLinks?.classList.toggle("mobile-nav-active");
+      mobileNavOverlay?.classList.toggle("active");
+      // Prevent scrolling when the menu is open
+      body.classList.toggle("no-scroll");
+    };
+
+    menuToggleButton?.addEventListener("click", toggleMenu);
+
+    mobileNavOverlay?.addEventListener("click", toggleMenu);
+
+    // Loop through each navigation link to close the menu when it's clicked
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        // Close the mobile menu when a link is clicked
+        if (navbarLinks?.classList.contains("mobile-nav-active")) {
+          toggleMenu();
+        }
+      });
+    });
+  });
 </script>
