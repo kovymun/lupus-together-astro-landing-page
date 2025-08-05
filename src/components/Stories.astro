@@ -80,7 +80,7 @@ try {
                 {testimonial.avatar && testimonial.avatar.url && (
                   <img
                     src={`${STRAPI_URL_IMAGES}${testimonial.avatar.url}`}
-                    alt={`Profile Image of ${testimonial.name}`}
+                    alt={testimonial.name}
                   />
                 )}
                 <div class="avatar-title">
