@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import holdingHands from "../assets/holding-hands.webp";
+import holdingHands from "../assets/holding-hands.avif";
 ---
 
 <section class="hero" id="hero">
@@ -17,8 +17,8 @@ import holdingHands from "../assets/holding-hands.webp";
     <Image
       src={holdingHands}
       alt="People holding hands, symbolizing community and empathy for people with Lupus"
-      loading="lazy"
-      format="avif"
+      loading="eager"
+      quality={60}
     />
   </div>
 </section>
