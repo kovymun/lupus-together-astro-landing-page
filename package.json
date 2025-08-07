@@ -11,6 +11,8 @@
     "backend:dev": "npm run develop --prefix ./backend"
   },
   "dependencies": {
+    "@fontsource/playfair-display": "^5.2.6",
+    "@fontsource/quicksand": "^5.2.8",
     "astro": "^5.11.0",
     "astro-icon": "^1.1.5",
     "concurrently": "^9.2.0"
