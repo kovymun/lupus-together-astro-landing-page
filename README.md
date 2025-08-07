@@ -43,7 +43,7 @@ This personal project combines thoughtful UI/UX with meaningful storytelling to 
 
 #### Additional Libraries:
 
-- **Google Fonts:** For typography that enhances readability and style.
+- **Fontsource:** Fontsource instead of Google Fonts CDN to improve performance, enhance SEO, and maintain full control over font loading in our project.
 - **Font Awesome SVG Icons:** Lightweight icon integration that elevates visual design.
 
 #### Other:
