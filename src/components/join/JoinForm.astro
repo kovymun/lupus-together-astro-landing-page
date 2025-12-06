@@ -1,0 +1,26 @@
+---
+//front-matter
+import Form from "./Form.tsx";
+---
+
+<section id="join" class="join-section">
+  <div class="section-wrapper">
+    <div class="section-header">
+      <h2 class="section-title">Let's Walk This Journey Together</h2>
+      <p>
+        Join a community that understands your journey - share your story,
+        connect with others, and be inspired.
+      </p>
+    </div>
+
+    <!-- Client Side Directive Hydration on when the user scroll to the form component -->
+    <Form client:visible />
+  </div>
+</section>
+
+<style>
+  .join-section {
+    text-align: center;
+    font-family: var(--primary-font-family);
+  }
+</style>

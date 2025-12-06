@@ -11,10 +11,16 @@
     "backend:dev": "npm run develop --prefix ./backend"
   },
   "dependencies": {
+    "@astrojs/react": "^4.4.2",
     "@fontsource-variable/playfair-display": "^5.2.8",
     "@fontsource-variable/quicksand": "^5.2.10",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "astro": "^5.11.0",
     "astro-icon": "^1.1.5",
-    "concurrently": "^9.2.0"
+    "concurrently": "^9.2.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "react-hook-form": "^7.68.0"
   }
 }
