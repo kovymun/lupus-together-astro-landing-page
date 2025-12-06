@@ -1,52 +1,10 @@
 ---
 import { Icon } from "astro-icon/components";
-import fetchApi from "../lib/strapi";
-import type ImageData from "../types/image";
-
-// Testimonial interface
-interface Testimonial {
-  id: number;
-  documentId: string;
-  name: string;
-  title: string;
-  quote: string;
-  city: string;
-  country: string;
-  date_posted: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  avatar: ImageData | null;
-}
-
-const STRAPI_URL_IMAGES = import.meta.env.STRAPI_URL;
-
-let testimonials: Testimonial[] = [];
-let error: string | null = null;
-
-try {
-  // Use fetchApi wrapper.
-  testimonials = await fetchApi<Testimonial[]>({
-    endpoint: "testimonials",
-    query: {
-      populate: "*",
-    },
-    wrappedByKey: "data",
-  });
-
-  // Sort by date_posted in descending order (most recent first)
-  testimonials.sort((a, b) => {
-    const dateA = new Date(a.date_posted).getTime();
-    const dateB = new Date(b.date_posted).getTime();
-    return dateB - dateA; // descending order
-  });
-} catch (event: any) {
-  console.error("Error fetching testimonials:", event);
-  error = `Failed to load testimonials. Please try again later. Details: ${event.message}`;
-}
+import { Image } from "astro:assets";
+import { testimonials } from "../data/testimonial-db";
 ---
 
-<section id="stories" class="stories-section">
+<section class="stories-section" id="stories">
   <div class="section-wrapper">
     <div class="section-header">
       <h2 class="section-title">Real Stories. Real Strength. Real Support.</h2>
@@ -57,65 +15,43 @@ try {
         <strong>you're not alone, and you never have to be.</strong>
       </p>
     </div>
-    {
-      error ? (
-        <div class="error-status-message" role="alert">
-          <p>Oops! We couldn't load the testimonials right now.</p>
-          <p>
-            Please check your internet connection or try again a little later.
-          </p>
-        </div>
-      ) : testimonials.length === 0 ? (
-        <div class="error-status-message">
-          <p>
-            It looks a little quiet here! No stories to share at the moment.
-          </p>
-          <p>Check back soon for inspiring new testimonials.</p>
-        </div>
-      ) : (
-        <div class="story-content">
-          {testimonials.map((testimonial) => (
+    <div class="story-content">
+      {
+        testimonials.map(
+          ({ id, name, avatar, title, city, country, quote, datePosted }) => (
             <article class="story-card">
               <div class="avatar">
-                {testimonial.avatar && testimonial.avatar.url && (
-                  <img
-                    src={`${STRAPI_URL_IMAGES}${testimonial.avatar.url}`}
-                    alt={testimonial.name}
-                  />
-                )}
+                <Image
+                  src={avatar}
+                  alt={`Profile Image of ${name}`}
+                  loading="lazy"
+                />
                 <div class="avatar-title">
-                  <span>{testimonial.name}</span>
-                  <span>{`${testimonial.title} · ${testimonial.city}, ${testimonial.country}`}</span>
+                  <span>{name}</span>
+                  <span>{`${title} · ${city}, ${country}`}</span>
                 </div>
               </div>
               <blockquote>
                 <Icon
                   name="quote"
-                  size={24}
+                  size={18}
                   style={{
                     marginRight: "8px",
                     color: "var(--primary-color)",
                   }}
                 />
-                {testimonial.quote}
+                {quote}
               </blockquote>
-              <p class="date-posted">
-                {new Date(testimonial.date_posted).toLocaleDateString()}
-              </p>
+              <p class="date-posted">- {datePosted}</p>
             </article>
-          ))}
-        </div>
-      )
-    }
+          )
+        )
+      }
+    </div>
   </div>
 </section>
 
 <style>
-  :root {
-    --primary-color: #7b6cf6;
-    --text-color: #333333;
-    --muted-text-color: #777777;
-  }
   .story-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -129,7 +65,7 @@ try {
     padding: clamp(1rem, 3vw, 1.5rem);
     border-radius: 0.75rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    background: #fff;
+    background: var(--site-wide-white);
     border-top: 3px solid var(--primary-color);
   }
 
@@ -145,7 +81,7 @@ try {
     flex-shrink: 0;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #fff;
+    border: 3px solid var(--site-wide-white);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
 
@@ -165,7 +101,7 @@ try {
 
   .avatar-title span:last-child {
     font-size: clamp(0.75rem, 0.9vw + 0.4rem, 1rem);
-    color: #666666;
+    color: var(-story-text);
   }
 
   .story-card blockquote {
