@@ -13,7 +13,7 @@ import Form from "./Form.tsx";
       </p>
     </div>
 
-    <!-- Client Side Directive Hydration on when the user scroll to the form component -->
+    <!-- Client-side hydration: the Form component is hydrated only when it becomes visible in the viewport (on scroll) -->
     <Form client:visible />
   </div>
 </section>
