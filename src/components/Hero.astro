@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import holdingHands from "../assets/holding-hands.avif";
+import Button from "../components/navigation/Button";
 ---
 
 <section class="hero" id="hero">
@@ -10,7 +11,15 @@ import holdingHands from "../assets/holding-hands.avif";
       Join a safe space where people with Lupus connect, share stories, and
       thrive together.
     </p>
-    <a href="#join" class="site-btn"> Join Our Community! </a>
+    <Button
+      className="site-btn"
+      title=" Join Our Community! "
+      to="join"
+      href="#join"
+      duration={900}
+      ariaLabel="Scroll to Join Lupus Together section"
+      client:load
+    />
   </div>
 
   <div class="hero-image">
