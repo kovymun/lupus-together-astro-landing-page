@@ -45,7 +45,7 @@ function Nav() {
       aria-label="Main navigation"
     >
       <Link
-        to="home"
+        to="hero"
         data-cy-link-id="nav-home"
         spy={true}
         smooth={true}
@@ -69,7 +69,6 @@ function Nav() {
         <li>
           <Link
             to="about"
-            data-cy-link-id="nav-about"
             spy={true}
             smooth={true}
             offset={-90}
