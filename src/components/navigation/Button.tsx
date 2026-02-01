@@ -5,8 +5,10 @@ interface ButtonProps {
   to: string;
   className?: string;
   duration: number;
+  offset?: number;
   href: string;
   ariaLabel?: string;
+  activeClass?: string;
 }
 
 const Button = ({
@@ -16,6 +18,8 @@ const Button = ({
   href,
   ariaLabel,
   duration,
+  offset,
+  activeClass,
 }: ButtonProps) => {
   return (
     <>
@@ -23,11 +27,12 @@ const Button = ({
         to={to}
         spy={true}
         smooth={true}
-        offset={-90}
+        offset={offset || -90}
         duration={duration || 700}
         href={href}
         aria-label={ariaLabel}
         className={className}
+        activeClass={activeClass}
       >
         {title}
       </Link>
