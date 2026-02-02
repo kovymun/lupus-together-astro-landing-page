@@ -20,6 +20,15 @@ const { title } = Astro.props;
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <meta
+      name="description"
+      content="Lupus Together is a Cape Town based lupus support community founded in 2012 to connect, empower, and uplift individuals and families affected by lupus across South Africa."
+    />
+    <!-- Meta keywords -->
+    <meta
+      name="keywords"
+      content="lupus, lupus support, lupus south africa, lupus cape town, lupus awareness, lupus community, autoimmune support, lupus together"
+    />
     <style>
       /* --- QUICKSAND FONTS --- */
       /* quicksand-latin-wght-normal */
@@ -73,6 +82,5 @@ const { title } = Astro.props;
       <slot />
     </main>
     <Footer />
-    <script src="../scripts/lenis.ts"></script>
   </body>
 </html>
