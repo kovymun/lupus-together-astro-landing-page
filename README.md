@@ -1,58 +1,62 @@
-## Lupus Together Landing Page (Astro + TypeScript)
+## Lupus Together | Technical Case Study (Astro + TypeScript)
 
-![Astro](https://img.shields.io/badge/Astro-1a1a1a?style=for-the-badge&logo=astro&logoColor=FF5D01) ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript) ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3) ![Font Awesome](https://img.shields.io/badge/Font%20Awesome-339AF0?style=for-the-badge&logo=fontawesome&logoColor=white)
+![Astro](https://img.shields.io/badge/Astro-1a1a1a?style=for-the-badge&logo=astro&logoColor=FF5D01) ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript) ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3)
+
+**Lupus Together** is a community based landing page support community designed with empathy to uplift individuals and families affected by Lupus. Inspired by a loved one's journey with Lupus, this project blends human centered design with production grade development to create a digital space for awareness, connection, and support.
+
+This repository is a high fidelity **Proof of Concept (PoC)** demonstrating modern web performance, accessibility, and a strategic migration from a React.js to Astro.js.
+
+**Note:** This is a migration from the original React project which can be found here: [Link to Original Repo](https://github.com/kovymun/lupus-together-landing-react-ts-django.git)
+
+---
 
 ### Table of Contents
 
-- [Description and Purpose](#description-and-purpose)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
+- [The Migration](#the-migration)
+- [Engineering Highlights](#engineering-highlights)
+- [Tech Stack](#tech-stack--optimization)
 - [Installation Guide](#installation-guide)
 - [Usage Guide](#usage-guide)
-- [Screenshots](#screenshots)
-- [Acknowledgment](#acknowledgment)
-- [Notes](#notes)
-- [Disclaimer](#disclaimer)
 - [Future Plans](#future-plans)
+- [Acknowledgment](#acknowledgment)
+- [Disclaimer](#disclaimer)
 - [Credits](#credits)
 - [Contact](#contact)
 
-### Description and Purpose
+---
 
-Lupus Together is a front-end landing page built with care, empathy, and intention. Inspired by a loved one's journey with Lupus, this project serves as a heartfelt digital space for awareness, connection, and support.
+### The Migration:
 
-Built using React, TypeScript and Vanilla CSS, it follows landing page best practices, offering a clear, inviting, and emotionally resonant experience for those affected by Lupus.
+#### Why the switch from React to Astro.js?
 
-This personal project combines thoughtful UI/UX with meaningful storytelling to gently educate, uplift, and welcome future members into a compassionate community.
+- **Performance:** As a content heavy landing page, React's "Heavy JS" bundle was unnecessary. Astro ships **zero client side JavaScript** by default, resulting in near instant load times.
+- **SEO Excellence:** For a community focused site, discoverability is key. Astro's Static Site Generation (SSG) ensures search engines crawl fully rendered HTML.
+- **Developer Experience:** Astro allows me to maintain a component based workflow with TypeScript while producing a significantly leaner final build.
 
-### Features
+---
 
-1. Smooth and intuitive navigation
-2. Fully responsive design for mobile, tablet, and desktop.
-3. Content-first layout designed to raise awareness and build community.
-4. Modern CSS techniques, including **Flexbox**, **Grid**, and `clamp()` for fluid typography.
-5. Custom 404 page.
+### Engineering Highlights
 
-### Tech Stack
+- **Islands Architecture:** Utilized Astro's hydration strategy to keep the site static while preparing **islands** of interactivity for future backend features.
+- **Fluid Responsive Design:** Implemented a single variable scaling system using CSS `clamp()` for consistent, fluid typography across all device widths.
+- **SEO Strategy:** Dynamically injected meta descriptions and semantic HTML tags to ensure maximum search engine visibility.
+- **A11y Compliance:** Audited for WCAG standards, including descriptive link text and accessible ARIA labeling.
 
-- **Front-end Framework:** Astro.js and Structured Astro components. [Astro](https://astro.build/)
-- **Back-end Framework:** Strapi CMS. [Strapi](https://strapi.io/)
-- **Programming Language:** TypeScript
-- **Styling:** Vanilla CSS
-- **Animations:** CSS Transitions
+---
 
-#### Additional Libraries:
+### Tech Stack & Optimization
 
-- **Fontsource:** Fontsource instead of Google Fonts CDN to improve performance, enhance SEO, and maintain full control over font loading in our project.
-- **Font Awesome SVG Icons:** Lightweight icon integration that elevates visual design.
+- **Framework:** [Astro.js](https://astro.build/) (Production grade SSG)
+- **Language:** TypeScript (Type safe component props)
+- **Styling:** Vanilla CSS (Modular & Fluid)
+- **Performance:** [Fontsource](https://fontsource.org/) for self-hosting fonts to eliminate render-blocking third-party requests.
+- **Assets:** Optimized WebP image delivery via Astro's native `<Image />` component.
 
-#### Other:
-
-- Code Editor / IDE: I would recommend using Microsoft Visual Studio code (VS Code) as your preferred code editor / IDE to explore this project. If you do not have VS Code installed and require assistance with downloading and installation, please refer to this guide: [VS Code](https://code.visualstudio.com/docs/setup/setup-overview)
+---
 
 ### Installation Guide
 
-Follow these steps to set up the project on your local machine:
+Follow these steps to set up the project on your local machine, and run both the project.
 
 #### Pre-requisites:
 
@@ -62,8 +66,12 @@ Follow these steps to set up the project on your local machine:
 
 1. **Create a directory for the project:** Open your terminal and run mkdir `<your-directory-name>` | cd `<your-directory-name>`.
 2. **Open the folder in VS Code:** run `code .`
-3. **Clone the repository into the folder:** git clone https://github.com/kovymun/lupus-together-astro-landing-page.git
-4. **Navigate into the project folder:** lupus-together-astro-landing-page
+3. **Clone the repository:** git clone https://github.com/kovymun/lupus-together-astro-landing-page.git
+4. **Navigate into the project folder:** cd lupus-together-astro-landing-page
+5. **Install frontend dependencies:** npm install or npm i
+6. **Start the development server:** Navigate to the root folder, and run `npm run dev`. The app should now be running locally on localhost in the browser of your choice.
+
+---
 
 ### Usage Guide
 
@@ -77,9 +85,9 @@ This website/landing page is structured into several key sections designed to gu
 - Join the Community Form
 - Footer with contact and legal info
 
-#### How to Use
+#### How to Use:
 
-1. **Start the Application:** Follow the steps in the [Installation Guide](#installation-guide) to set up and run the project on your local machine.
+1. **Start the Application:** Set up and run the project locally using the steps in the [Installation Guide](#installation-guide).
 2. **Explore the Hero Section:** Once the app loads, you’ll be welcomed with a hero banner representing Lupus Together.
 3. **Navigate Smoothly:** Scroll or click through the navigation bar to explore each section. Smooth scrolling is enabled for a seamless experience.
 4. **Learn About Lupus Together:** Get to know the purpose behind the platform, what it offers, how it started, and how it supports individuals and families.
@@ -88,31 +96,34 @@ This website/landing page is structured into several key sections designed to gu
 7. **Meet the Team:** Discover the faces behind the platform, the people dedicated to fostering support.
 8. **Join the Community:** Fill out the form to express interest in becoming part of the Lupus Together support circle.
 
-### Screenshots
+---
+
+### Future Plans
+
+- **Backend Implementation:** Developing a FastAPI backend for community sign-up.
+
+---
 
 ### Acknowledgment
 
 Inspired by a family member who battles Lupus daily. This project is a tribute to their strength, and to those navigating this journey around the world.
 
-### Notes
-
-This project reflects a passion for building applications that are not only technically sound but also emotionally intelligent. The focus is on creating a welcoming space for users through accessible design, inclusive language, and meaningful visuals.
+---
 
 ### Disclaimer
 
-All names, services, testimonials, locations, and brand references, including _Lupus Together_, are fictional and created for the sole purpose of demonstrating software development, UI/UX design, and implementation best practices. Any resemblance to real individuals or organizations is purely coincidental. _Note: This is a front-end-only fictional project intended to showcase UI/UX thinking, design sensitivity, and modern web development techniques._
+All names, services, testimonials, locations, and brand references, including _Lupus Together_, are fictional and created for the sole purpose of demonstrating software development, UI/UX design, and implementation best practices. Any resemblance to real individuals or organizations is purely coincidental. _Note: This is project intended to showcase UI/UX thinking, design sensitivity, and modern web development techniques._
 
-Images used are royalty-free and sourced from **[Unsplash](https://unsplash.com/)** and **[Lummi AI](https://www.lummi.ai/)** , optimized for performance (WebP format). Social links included are placeholders to demonstrate UI layout and design.
+Images used are royalty-free and sourced from **[Unsplash](https://unsplash.com/)** and **[Lummi AI](https://www.lummi.ai/)** , optimized for performance (WebP format). **Social links** included are placeholders to demonstrate UI layout and design.
 
-### Future Plans
-
-- **Light & Dark Theme Toggle**: to improve accessibility and user preference support.
-- **Scroll-triggered Animations**: for a smoother, more interactive visual experience.
+---
 
 ### Credits
 
 - **Sole Developer & Designer:** Koveshan Munsami
 - **Inspiration:** A family member who lives with Lupus daily. This is for them, and for all who need a gentle place to land.
+
+---
 
 ### Contact
 
