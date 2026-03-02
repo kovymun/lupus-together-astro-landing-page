@@ -1,14 +1,11 @@
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime
 from datetime import datetime, timezone
 from sqlalchemy.ext.declarative import declarative_base
-
-# from app.db.session import Base
-
-Base = declarative_base()  # this should be imported from your database session module.
+from app.db.database import Base
 
 
 class CommunityMember(Base):
-    __tablename__ = "lp_together"
+    __tablename__ = "community_member"
 
     id = Column(Integer, primary_key=True, index=True)
     first_name = Column(String(50), nullable=False)
